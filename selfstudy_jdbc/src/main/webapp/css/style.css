@@ -1,0 +1,37 @@
+
+      * {
+        margin: 0;
+        padding: auto;
+        box-sizing: border-box;
+      }
+
+      ul li {
+        list-style: none;
+      }   
+      .slider-div {
+        width: 100%;
+        margin: 0 auto;
+      }
+      .slider-div div {
+        height: 600px;
+      }
+      .slick-prev {
+        position: absolute;
+        left: 10px;
+        z-index: 10;
+      }
+      .slick-next {
+        position: absolute;
+        right: 10px;
+      }
+      @media (max-width: 1399px) {
+      }
+      @media (max-width: 1199px) {
+      }
+      @media (max-width: 991px) {
+      }
+      @media (max-width: 767px) {
+      }
+      @media (max-width: 575px) {
+      }
+      

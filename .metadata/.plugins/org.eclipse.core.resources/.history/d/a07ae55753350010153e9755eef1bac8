@@ -1,0 +1,17 @@
+package kr.blug.tour.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import kr.blug.tour.entity.RemarksCourseEntity;
+
+public class RemarksCourseService {
+
+	public Page<RemarksCourseEntity> search(String query, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+}

@@ -1,0 +1,13 @@
+package study02;
+
+public class StarTest {
+
+	public static void main(String[] args) {
+
+		for (int i=1;n<=5;1++) {
+			System.out.println(i);
+		}
+
+	}
+
+}

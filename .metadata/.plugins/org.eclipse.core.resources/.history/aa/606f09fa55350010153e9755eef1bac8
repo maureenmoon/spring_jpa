@@ -1,0 +1,19 @@
+package kr.blug.tour.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import kr.blug.tour.entity.RemarksCourseEntity;
+import kr.blug.tour.repository.RemarksCourseRepository;
+
+public class RemarksCourseService {
+
+	@Autowired
+	private RemarksCourseRepository remarksCourseRepository;
+	
+
+
+
+
+}

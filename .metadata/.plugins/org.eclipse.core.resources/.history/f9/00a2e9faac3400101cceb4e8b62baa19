@@ -1,0 +1,50 @@
+package kr.blug.tour.dto;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+public class RemarksCourseDto { 
+	
+	//댓글 서비스 요청을 위한 DTO
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name="remarks_course",
+uniqueConstraints = {
+		  @UniqueConstraint(columnNames = {"course_id", "user_id"})
+		}
+)
+	public static class Request {
+
+	private Long remarks_course_id;
+	private String remarks_course;
+	private LocalDateTime crdttm;
+	
+	private Long user_id;
+	private String nickname;
+	
+	private Long course_id;
+	private String course_name;
+	private String areacode;
+	private String sigungucode;
+	
+	private Long writer_user_id;	
+	private String writer_nickname;
+	
+	//Dto to toEntity
+	public RemarksCourse toEntity() {
+		RemarksCourse comments = RemarksCourse.builder()
+		
+		return remarksCourse;
+	}
+
+}
+}
