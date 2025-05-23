@@ -11,20 +11,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostsCommentController {
 
-    private final PostsCommentService commentService;
+    private final PostsCommentService postscommentService;
 
     @PostMapping
     public Long createComment(@PathVariable Long postId, @RequestBody DPostsComment.Request request) {
-        return commentService.createComment(postId, request);
+        return postscommentService.createComment(postId, request);
     }
-
+    
+    //view
     @GetMapping
     public List<DPostsComment.Response> getComments(@PathVariable Long postId) {
-        return commentService.getCommentsByPost(postId);
+        return postscommentService.getCommentsByPost(postId);
     }
+    
 
     @DeleteMapping("/{commentId}")
     public void deleteComment(@PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+        postscommentService.deleteComment(commentId);
     }
 }

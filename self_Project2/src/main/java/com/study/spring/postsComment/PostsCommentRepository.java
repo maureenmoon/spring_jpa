@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostsCommentRepository extends JpaRepository<EPostsComment, Long> {
 
+	Object findAllByUserId(Long userId);
+
 }

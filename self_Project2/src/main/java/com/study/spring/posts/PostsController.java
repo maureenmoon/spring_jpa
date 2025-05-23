@@ -26,11 +26,13 @@ public class PostsController {
     public DPosts.Response getPost(@PathVariable Long id) {
         return postsService.getPost(id);
     }
-
-//    @GetMapping
-//    public List<DPosts.Response> getAllPosts() {
-//        return postsService.getAllPosts();
+    
+//    //list all posts with comments
+//    @GetMapping("/with-comments")
+//    public List<DPosts.Response> getAllPostsWithComments() {
+//        return postsService.getAllPostsWithComments();
 //    }
+    
     @GetMapping
     public Page<DPosts.Response> getAllPosts(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return postsService.getAllPosts(pageable);
@@ -39,6 +41,16 @@ public class PostsController {
     @PutMapping("/{id}")
     public void updatePost(@PathVariable Long id, @RequestBody DPosts.Request request) {
         postsService.updatePost(id, request);
+    }
+    
+    @GetMapping("/top10")
+    public List<DPosts.Response> getTop10Posts(){
+    	return postsService.getTop10PostsByLikes();
+    }
+    
+    @PostMapping("/{postId}/like")
+    public void likePost(@PathVariable Long postId, @RequestParam Long userId) {
+    	postsService.likePost(userId, postId);
     }
 
     @DeleteMapping("/{id}")

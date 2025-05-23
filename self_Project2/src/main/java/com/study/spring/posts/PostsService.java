@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.study.spring.posts.DPosts.Request;
+import com.study.spring.posts.DPosts.Response;
+import com.study.spring.postsLike.EPostsLike;
+import com.study.spring.postsLike.PostsLikeRepository;
 import com.study.spring.user.EUser;
 import com.study.spring.user.UserRepository;
 
@@ -19,6 +22,7 @@ public class PostsService {
 	
 	private final PostsRepository postsRepository;
 	private final UserRepository userRepository;
+	private final PostsLikeRepository postsLikeRepository;
 	
 	
 	//create
@@ -36,9 +40,10 @@ public class PostsService {
         return new DPosts.Response(post);
     }
 	
-//	public List<DPosts.Response> getAllPosts() {
+//	//list all posts with comments
+//	public List<DPosts.Response> getAllPostsWithComments() {
 //		return postsRepository.findAll().stream()
-//				.map(DPosts.Response::new)
+//				.map(post-> new DPosts.Response(post))
 //				.toList();
 //	}
 	
@@ -47,20 +52,39 @@ public class PostsService {
 		return postsRepository.findAll(pageable).map(DPosts.Response::new);
 	}
 	
-	//update
+	//update 미완성
 	@Transactional
 	public void updatePost(Long id, DPosts.Request dto) {
         EPosts post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
-//        post.setTitle(dto.getTitle());
-//        post.setContent(dto.getContent());
-//        post.setWriter(dto.getWriter());
-  
+	        post.setTitle(dto.getTitle());
+	        post.setContent(dto.getContent());
+	        post.setWriter(dto.getWriter());
     }
 
     @Transactional
     public void deletePost(Long id) {
         postsRepository.deleteById(id);
     }
+
+    @Transactional
+    public void likePost(Long userId, Long postId) {
+    	if (postsLikeRepository.existsByUserAndPostId(userId, postId)) {
+    		throw new IllegalArgumentException("Already liked");
+    	}
+    	EUser user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("User not found"));
+    	EPosts post = postsRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("Post not found"));
+    	
+    	post.increseLikes();
+    	
+    	postsLikeRepository.save(EPostsLike.builder().user(user).posts(post).build());
+    
+    }
+
+	public List<Response> getTop10PostsByLikes() {
+
+		return postsRepository.findTop10ByOrderByLikesDesc().stream().map(DPosts.Response::new).toList();
+	}
+
 			
 }

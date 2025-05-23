@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.study.spring.posts.EPosts;
 import com.study.spring.postsComment.EPostsComment;
+import com.study.spring.postsLike.EPostsLike;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,14 +27,17 @@ public class EUser {
     @Column(nullable=false, length=50, unique=true)
     private String email;
     
-	@OneToMany(mappedBy = "user_id", cascade = CascadeType.REMOVE)
-	@OrderBy("id asc") //댓글 정렬
-	private List<EPostsComment> postscomments;
-    
-	@OneToMany(mappedBy = "user_id", cascade = CascadeType.REMOVE)
-	@OrderBy("id asc") //댓글 정렬
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@OrderBy("id asc") //게시판 정렬
 	private List<EPosts> posts;
    
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@OrderBy("id asc") //댓글 정렬
+	private List<EPostsComment> postsComments;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<EPostsLike> likes;
+	
     //modify
     
 }

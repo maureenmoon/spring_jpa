@@ -1,0 +1,50 @@
+package com.study.spring.posts;
+
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.study.spring.postsComment.EPostsComment;
+import com.study.spring.postsLike.EPostsLike;
+import com.study.spring.user.EUser;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class EPosts {
+	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String title;
+    private String content;
+    private String writer;
+//	private LocalDateTime crdttm;
+    
+//    private int view;
+    
+    private int postsLikes = 0;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private EUser user; 
+    
+	@OneToMany(mappedBy = "posts", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OrderBy("id asc") //댓글 정렬
+	private List<EPostsComment> postscomments;
+	
+	@OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+	private List<EPostsLike> postsLikeList;
+
+	public void increseLikes() {
+		this.postsLikes++;
+		
+	}
+    
+}

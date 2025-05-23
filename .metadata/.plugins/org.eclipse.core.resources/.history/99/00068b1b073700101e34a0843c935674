@@ -1,0 +1,18 @@
+package com.study.spring.postsLike;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.study.spring.posts.DPosts.Response;
+
+public interface PostsLikeRepository extends JpaRepository<EPostsLike, Long> {
+
+	static boolean existsByUserAndPostId(Long userId, Long postId) {
+
+		return false;
+	}
+
+	Collection<Response> findAllByUserId(Long userId);
+
+}

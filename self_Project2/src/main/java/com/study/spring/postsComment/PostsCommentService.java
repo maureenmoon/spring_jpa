@@ -3,6 +3,9 @@ package com.study.spring.postsComment;
 
 import com.study.spring.posts.EPosts;
 import com.study.spring.posts.PostsRepository;
+import com.study.spring.user.EUser;
+import com.study.spring.user.UserRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,19 +18,27 @@ public class PostsCommentService {
 
     private final PostsCommentRepository postsCommentRepository;
     private final PostsRepository postsRepository;
+//    private final UserRepository userRepository;
 
     @Transactional
     public Long createComment(Long postId, DPostsComment.Request dto) {
-        EPosts post = postsRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
-        EPostsComment comment = dto.toEntity(post);
-        return postsCommentRepository.save(comment).getId();
+
+//        EPostsComment comment = dto.toEntity(post);
+//	    EUser user = userRepository.findById(dto.getUserId())
+//	                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+	    EPosts post = postsRepository.findById(postId)
+	                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+	
+//	    EPostsComment postsComment = dto.toEntity(post, user);
+	    EPostsComment postsComment = dto.toEntity(post);
+    			
+        return postsCommentRepository.save(postsComment).getId();
     }
 
     public List<DPostsComment.Response> getCommentsByPost(Long postId) {
         EPosts post = postsRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
-        return post.getPostscomments().stream()
+        return post.getPostsComments().stream()
                 .map(DPostsComment.Response::new)
                 .toList();
     }

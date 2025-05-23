@@ -23,17 +23,17 @@ public class DPosts {
 	@NoArgsConstructor
 	@AllArgsConstructor	
 	public static class Request {
-	    private Long id;	    
+//	    private Long id;	    
+//		private LocalDateTime crdttm;	
 	    private String title;
 	    private String content;
 	    private String writer;		
-//		private LocalDateTime crdttm;	
 		private Long userId; 
 		
 		//Dto -> Entity (EUser는 서비스에서 주입)
 		public EPosts toEntity(EUser user) {
 			return EPosts.builder()
-					.id(id)
+//					.id(id)
 					.title(title)
 					.content(content)
 					.writer(writer)
@@ -46,13 +46,14 @@ public class DPosts {
 	//엔티티를 생성자 파라미터로 받아 데이터를 Dto로 변환하여 응답
 	//별도의 전달객체를 활용해 연관관계를 맺은 엔티티간 무한참조 방지
 	@Getter
+	@NoArgsConstructor
 	public static class Response{
-	    private final Long id;	    
-	    private final  String title;
-	    private final  String content;
-	    private final  String writer;			
-		private final  Long userId;
-        private final List<DPostsComment.Response> postscomments;
+	    private Long id;	    
+	    private String title;
+	    private String content;
+	    private String writer;
+	    private int postsLikes;
+	    
 		
 		//Entity ->Dto
 		public Response(EPosts posts) {
@@ -60,13 +61,19 @@ public class DPosts {
 			this.title = posts.getTitle();
 			this.content= posts.getContent();
 			this.writer=posts.getWriter();
-			this.userId=posts.getUser().getId();
-			this.postscomments = posts.getPostscomments() !=null ?
-					posts.getPostscomments().stream()
-					.map(DPostsComment.Response::new)
-					.collect(Collectors.toList())
-				: null;
-									
-		}		
+			this.postsLikes=posts.getPostsLikes();
+//			this.userId=posts.getUser().getId();
+//			this.postscomments = posts.getPostscomments() !=null ?
+//					posts.getPostscomments().stream()
+//					.map(DPostsComment.Response::new)
+//					.collect(Collectors.toList())
+//				: null;
+//        public Response(EPosts entity) {
+//        	this.id = entity.getId();
+//        	this.title = entity.getTitle();
+//        	this.content = entity.getContent();
+//        	this.writer = entity.getWriter();
+								
+		}
 	}	
 }

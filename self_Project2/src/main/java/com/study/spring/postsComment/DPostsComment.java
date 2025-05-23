@@ -16,15 +16,19 @@ public class DPostsComment {
 	@NoArgsConstructor
 	@AllArgsConstructor	
 	public static class Request {
-	    
+	    private String title;
 		private String content;//댓글내용
-		private String writer;		
+		private String writer;	
+		private Long userId;
+		private Long postId;
 
 		//Dto -> Entity
 		public EPostsComment toEntity(EPosts post) {
 			return EPostsComment.builder()
+					.title(title)
 					.content(content)
 					.writer(writer)
+					.crdttm(LocalDateTime.now())
 					.posts(post)
 					.build();			
 		}
@@ -36,20 +40,21 @@ public class DPostsComment {
 	@Getter
 	@AllArgsConstructor
 	public static class Response{
-	    private final Long id;	    
-//	    private final  String title;
-	    private final  String content;
-	    private final  String writer;		
-		private final  LocalDateTime crdttm;	
-//		private final  Long userId;
-//		private final Long postsId;
+	    private  Long id;	    
+	    private  String title;
+	    private  String content;
+	    private  String writer;		
+		private  LocalDateTime crdttm;	
+		private  Long userId;
+		private  Long postsId;
 		
 		//Entity ->Dto	
-		public Response(EPostsComment postsComment) {
-			this.id = postsComment.getId();
-			this.content=postsComment.getContent();
-			this.writer=postsComment.getWriter();
-			this.crdttm=postsComment.getCrdttm();
+		public Response(EPostsComment ePostsComment) {
+			this.id = ePostsComment.getId();
+			this.content=ePostsComment.getContent();
+			this.writer=ePostsComment.getWriter();
+			this.crdttm=ePostsComment.getCrdttm();
+			this.postsId=ePostsComment.getPosts().getId();
 		}
 	}
 }

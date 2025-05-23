@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.study.spring.postsComment.EPostsComment;
+import com.study.spring.postsLike.EPostsLike;
 import com.study.spring.user.EUser;
 
 import jakarta.persistence.*;
@@ -27,13 +28,23 @@ public class EPosts {
 //	private LocalDateTime crdttm;
     
 //    private int view;
+    
+    private int postsLikes = 0;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private EUser user; 
     
-	@OneToMany(mappedBy = "posts", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "posts", cascade = CascadeType.ALL, orphanRemoval=true)
 	@OrderBy("id asc") //댓글 정렬
-	private List<EPostsComment> postscomments;
+	private List<EPostsComment> postsComments;
+	
+	@OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+	private List<EPostsLike> postsLikeList;
+
+	public void increseLikes() {
+		this.postsLikes++;
+		
+	}
     
 }

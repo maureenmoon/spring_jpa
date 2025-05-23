@@ -1,0 +1,86 @@
+package com.study.spring.posts;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.study.spring.postsComment.DPostsComment;
+import com.study.spring.user.DUser;
+import com.study.spring.user.EUser;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+//request, response DTO 클래스를 하나로 묶어 InnerStaticClass로 한 번에 관리
+public class DPosts {
+	
+
+	//게시글 등록,수정을 처리할 request
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor	
+	public static class Request {
+//	    private Long id;	    
+	    private String title;
+	    private String content;
+	    private String writer;		
+//		private LocalDateTime crdttm;	
+		private Long userId; 
+		
+		//Dto -> Entity (EUser는 서비스에서 주입)
+		public EPosts toEntity(EUser user) {
+			return EPosts.builder()
+//					.id(id)
+					.title(title)
+					.content(content)
+					.writer(writer)
+					.user(user)
+					.build();
+		}	
+	}
+
+    //게시글 정보를 리턴할 Response
+	//엔티티를 생성자 파라미터로 받아 데이터를 Dto로 변환하여 응답
+	//별도의 전달객체를 활용해 연관관계를 맺은 엔티티간 무한참조 방지
+	@Getter
+	@NoArgsConstructor
+	public static class Response{
+	    private final Long id;	    
+	    private final  String title;
+	    private final  String content;
+	    private final  String writer;
+	    private int likes;
+	    
+//		private final  Long userId;
+//        private final List<DPostsComment.Response> postscomments;
+		
+		//Entity ->Dto
+		public Response(EPosts posts) {
+			this.id = posts.getId();
+			this.title = posts.getTitle();
+			this.content= posts.getContent();
+			this.writer=posts.getWriter();
+			this.likes=posts.getPostsLikes();
+//			this.userId=posts.getUser().getId();
+			this.postscomments = posts.getPostscomments() !=null ?
+					posts.getPostscomments().stream()
+					.map(DPostsComment.Response::new)
+					.collect(Collectors.toList())
+				: null;
+//        public Response(EPosts entity) {
+//        	this.id = entity.getId();
+//        	this.title = entity.getTitle();
+//        	this.content = entity.getContent();
+//        	this.writer = entity.getWriter();
+									
+		}
+
+		public EPosts getPost() {
+			// TODO Auto-generated method stub
+			return null;
+		}		
+	}	
+}

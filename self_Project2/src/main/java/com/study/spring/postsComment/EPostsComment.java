@@ -31,7 +31,7 @@ public class EPostsComment {
 	private EUser user; //작성자
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "postsComment_id")
+	@JoinColumn(name = "post_id")
 	private EPosts posts; 
 
 }
