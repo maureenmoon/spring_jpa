@@ -1,5 +1,0 @@
-package kr.blug.tour.repository;
-
-public interface RemarksCourseRepository {
-
-}
